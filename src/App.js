@@ -10,11 +10,11 @@ function App() {
      
         <Input type="text"
           name="input"
-          id="input"/>
+          id="Input"/>
           <button>Add</button>
 <div>
           <ul>
-          <li>{}</li>
+         <li>{Input}</li>
       </ul>
       </div>
     </div>

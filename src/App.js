@@ -1,19 +1,38 @@
-import { useState } from "react";
-import Input from "./input";
-import "./App.css";
+import { useDispatch, useSelector } from 'react-redux';
+import './App.css';
 
 function App() {
-  const [] = useState(false);
+  const dispatch = useDispatch();
+  const items = useSelector(state => state);
+
+  function onAddCallback(event) {
+    const data = new FormData(event.target);
+    dispatch({ type: "ADD_TODO", text: data.get('text') });
+
+    event.preventDefault();
+  }
+
+  function onRemoveCallback(id) {
+    dispatch({ type: "REMOVE_TODO", id: id });
+  }
+
+  const output = Object.keys(items).map(id => (
+    <li key={id}>
+      <span>{items[id].text}</span>
+      <button onClick={() => onRemoveCallback(id)}>Remove</button>
+    </li>
+  ));
 
   return (
     <div className="App">
-      <Input type="text" name="input" id="Input" />
-      <button>Add</button>
-      <div>
-        <ul>
-          <li>{Input}</li>
-        </ul>
-      </div>
+      <form onSubmit={onAddCallback}>
+        <input type="text" name="text" required />
+      
+        <button>Add</button>
+      </form>
+      <ul>
+        {output}
+      </ul>
     </div>
   );
 }
